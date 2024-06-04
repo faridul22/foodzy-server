@@ -31,7 +31,9 @@ async function run() {
         await client.connect();
 
         const itemsDB = client.db("itemsDB");
+        const userDB = client.db("userDB");
         const itemsCollection = itemsDB.collection("itemsCollection");
+        const userCollection = userDB.collection("userCollection");
 
         // items route
         app.post('/items', async (req, res) => {
@@ -63,6 +65,39 @@ async function run() {
             const itemsData = await itemsCollection.deleteOne({ _id: new ObjectId(id) });
             res.send(itemsData)
         })
+
+        // user routes
+        app.post('/user', async (req, res) => {
+            const user = req.body;
+            const isUserExist = await userCollection.findOne({ email: user?.email });
+            if (isUserExist?._id) {
+                return res.send({
+                    status: "Success",
+                    message: "Login success"
+                })
+            }
+            const result = await userCollection.insertOne(user);
+            res.send(result);
+        })
+
+        app.get('/user/get/:id', async (req, res) => {
+            const id = req.params.id;
+            const result = await userCollection.findOne({ _id: new ObjectId(id) });
+            res.send(result);
+        })
+
+        app.get('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const result = await userCollection.findOne({ email });
+            res.send(result);
+        })
+        app.patch('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const userData = req.body;
+            const result = await userCollection.updateOne({ email }, { $set: userData }, { upsert: true });
+            res.send(result);
+        })
+
 
 
         console.log("successfully connected to MongoDB!");
