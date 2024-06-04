@@ -49,6 +49,20 @@ async function run() {
             const itemsData = await itemsCollection.findOne({ _id: new ObjectId(id) });
             res.send(itemsData)
         })
+        app.patch('/items/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedData = req.body;
+            const itemsData = await itemsCollection.updateOne(
+                { _id: new ObjectId(id) },
+                { $set: updatedData }
+            );
+            res.send(itemsData)
+        })
+        app.delete('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const itemsData = await itemsCollection.deleteOne({ _id: new ObjectId(id) });
+            res.send(itemsData)
+        })
 
 
         console.log("successfully connected to MongoDB!");
