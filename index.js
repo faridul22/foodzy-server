@@ -28,12 +28,25 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        client.connect();
+        await client.connect();
 
-        const itemsDB = client.db("itemsDB");
-        const userDB = client.db("userDB");
-        const itemsCollection = itemsDB.collection("itemsCollection");
-        const userCollection = userDB.collection("userCollection");
+        const popularCollection = client.db("foodzyDB").collection("popularItemsCollection");
+        const itemsCollection = client.db("foodzyDB").collection("itemsCollection");
+        const userCollection = client.db("foodzyDB").collection("userCollection");
+        const serveCollection = client.db("foodzyDB").collection("serveCollection");
+
+        // popular item route
+        app.get('/popularItems', async (req, res) => {
+            const itemsData = popularCollection.find();
+            const result = await itemsData.toArray();
+            res.send(result)
+        })
+        // serve route
+        app.get('/serve', async (req, res) => {
+            const serveData = serveCollection.find();
+            const result = await serveData.toArray();
+            res.send(result)
+        })
 
         // items route
         app.post('/items', async (req, res) => {
