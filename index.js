@@ -30,6 +30,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
+        // database collection
         const popularCollection = client.db("foodzyDB").collection("popularItemsCollection");
         const itemsCollection = client.db("foodzyDB").collection("itemsCollection");
         const userCollection = client.db("foodzyDB").collection("userCollection");
@@ -110,7 +111,6 @@ async function run() {
             const result = await userCollection.updateOne({ email }, { $set: userData }, { upsert: true });
             res.send(result);
         })
-
 
 
         console.log("successfully connected to MongoDB!");
