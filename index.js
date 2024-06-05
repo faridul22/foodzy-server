@@ -38,12 +38,12 @@ async function run() {
 
         //---------------------Search---------------------
 
-        app.get("/getItemNameByText/:text", async (req, res) => {
+        app.get("/getToyNameByText/:text", async (req, res) => {
             const searchText = req.params.text;
             const result = await itemsCollection
                 .find({
                     $or: [
-                        { toyName: { $regex: searchText, $options: "i" } },
+                        { title: { $regex: searchText, $options: "i" } },
                     ],
                 })
                 .toArray();
