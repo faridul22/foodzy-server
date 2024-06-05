@@ -36,6 +36,22 @@ async function run() {
         const userCollection = client.db("foodzyDB").collection("userCollection");
         const serveCollection = client.db("foodzyDB").collection("serveCollection");
 
+        //------------------------------------------
+
+        app.get("/getItemNameByText/:text", async (req, res) => {
+            const searchText = req.params.text;
+            const result = await itemsCollection
+                .find({
+                    $or: [
+                        { toyName: { $regex: searchText, $options: "i" } },
+                    ],
+                })
+                .toArray();
+            res.send(result);
+        });
+
+        //-----------------------------------------------
+
         // popular item route
         app.get('/popularItems', async (req, res) => {
             const itemsData = popularCollection.find();
