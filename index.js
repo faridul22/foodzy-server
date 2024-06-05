@@ -36,7 +36,7 @@ async function run() {
         const userCollection = client.db("foodzyDB").collection("userCollection");
         const serveCollection = client.db("foodzyDB").collection("serveCollection");
 
-        //------------------------------------------
+        //---------------------Search---------------------
 
         app.get("/getItemNameByText/:text", async (req, res) => {
             const searchText = req.params.text;
