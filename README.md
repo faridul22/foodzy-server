@@ -23,5 +23,5 @@ Ensure you have the following installed on your development machine:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/foodzy-server.git
+git clone https://github.com/faridul22/foodzy-server.git
 cd foodzy-server

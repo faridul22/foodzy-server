@@ -66,11 +66,7 @@ async function run() {
         })
 
         // items route
-        app.post('/items', async (req, res) => {
-            const itemsData = req.body;
-            const result = await itemsCollection.insertOne(itemsData);
-            res.send(result)
-        })
+
         app.get('/items', async (req, res) => {
             const itemsData = itemsCollection.find();
             const result = await itemsData.toArray();
@@ -80,6 +76,11 @@ async function run() {
             const id = req.params.id
             const itemsData = await itemsCollection.findOne({ _id: new ObjectId(id) });
             res.send(itemsData)
+        })
+        app.post('/items', async (req, res) => {
+            const itemsData = req.body;
+            const result = await itemsCollection.insertOne(itemsData);
+            res.send(result)
         })
         app.patch('/items/:id', async (req, res) => {
             const id = req.params.id
